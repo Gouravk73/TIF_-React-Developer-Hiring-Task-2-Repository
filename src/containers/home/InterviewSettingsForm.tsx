@@ -35,7 +35,6 @@ const InterviewDetailsForm: React.FC<{
       interviewLanguage: Yup.string().required("interview Language is required"),
     }),
     onSubmit: (values) => {
-      console.log({ values });
       alert("Form successfully submitted");
     },
   });

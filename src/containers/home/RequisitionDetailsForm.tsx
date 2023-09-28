@@ -53,8 +53,8 @@ const RequisitionDetailsForm: React.FC<{
       ...prev,requisitionDetails: values, 
     }));
   }, [values,setState])
-  const handleChangeForm = (val: string, value: any) => {
-    console.log(val,value)
+
+  const handleChangeForm = (val: string, value: string) => {
     setFieldValue(val, value);
     setFieldTouched(val, true, false);
     setState((prev) => ({

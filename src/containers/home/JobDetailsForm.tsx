@@ -27,7 +27,6 @@ const JobDetailsForm: React.FC<{
       },
     });
     const HandleJobChanges=(val:string,value:string)=>{
-      console.log(value)
       setFieldValue(val, value);
       setFieldTouched(val, true, false);
       setState((prev) => ({

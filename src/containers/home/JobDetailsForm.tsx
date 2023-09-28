@@ -5,11 +5,12 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { PageNumbers } from "../../interface/home";
 import { IJobDetails } from "../../interface/forms";
-
+import { useData } from "./DataProvider";
 const JobDetailsForm: React.FC<{
   handleTab: (n: PageNumbers) => void;
 }> = ({ handleTab }) => {
-  const { handleChange, errors, touched, handleBlur, handleSubmit, values } =
+  const {state,setState}=useData()!;
+  const { handleChange, errors, touched, handleBlur,setFieldTouched,setFieldValue, handleSubmit, values } =
     useFormik<IJobDetails>({
       initialValues: {
         jobTitle: "",
@@ -22,10 +23,20 @@ const JobDetailsForm: React.FC<{
         jobLocation: Yup.string().required("Job Location is required"),
        }),
       onSubmit: (values) => {
-        console.log( values );
         handleTab(2);
       },
     });
+    const HandleJobChanges=(val:string,value:string)=>{
+      console.log(value)
+      setFieldValue(val, value);
+      setFieldTouched(val, true, false);
+      setState((prev) => ({
+        ...prev,jobDetails: {
+          ...prev.jobDetails,
+          [val]: value,
+      },
+    }));
+    }
 
   return (
     <Box width="100%" as="form" onSubmit={handleSubmit as any}>
@@ -34,7 +45,7 @@ const JobDetailsForm: React.FC<{
           label="Job Title"
           placeholder="Enter job title"
           name="jobTitle"
-          onChange={handleChange}
+          onChange={(e)=>HandleJobChanges('jobTitle', e.target.value)}
           onBlur={handleBlur}
           value={values?.jobTitle}
           error={errors?.jobTitle}
@@ -44,7 +55,7 @@ const JobDetailsForm: React.FC<{
           label="Job Details"
           placeholder="Enter job details"
           name="jobDetails"
-          onChange={handleChange}
+          onChange={(e)=>HandleJobChanges('jobDetails', e.target.value)}
           onBlur={handleBlur}
           value={values?.jobDetails}
           error={errors?.jobDetails}
@@ -54,7 +65,7 @@ const JobDetailsForm: React.FC<{
           label="Job Location"
           name="jobLocation"
           placeholder="Enter job location"
-          onChange={handleChange}
+          onChange={(e)=>HandleJobChanges('jobLocation', e.target.value)}
           onBlur={handleBlur}
           error={errors.jobLocation}
           touched={touched.jobLocation}

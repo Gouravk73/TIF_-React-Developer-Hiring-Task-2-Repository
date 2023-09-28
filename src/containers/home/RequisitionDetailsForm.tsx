@@ -1,5 +1,5 @@
 import { Button, Flex, Box } from "@chakra-ui/react";
-import React from "react";
+import React,{useEffect} from "react";
 import FormInput from "../../components/formComponents/FormInput";
 import FormSelect from "../../components/formComponents/FormSelect";
 import { useFormik } from "formik";
@@ -48,6 +48,11 @@ const RequisitionDetailsForm: React.FC<{
       handleTab(1);
     },
   });
+  useEffect(() => {
+    setState((prev:any) => ({
+      ...prev,requisitionDetails: values, 
+    }));
+  }, [values,setState])
   const handleChangeForm = (val: string, value: any) => {
     console.log(val,value)
     setFieldValue(val, value);
